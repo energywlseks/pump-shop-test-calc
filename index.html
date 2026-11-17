@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<!-- Pretendard: 설치본 → jsDelivr CDN 순으로 시도. 둘 다 안 되면 문서의 대체 글꼴로 표시된다. -->
+<style data-pgpt-fonts>@font-face{font-family:"Pretendard";font-weight:400;font-display:swap;src:local("Pretendard Regular"),local("Pretendard Variable"),url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2/Pretendard-Regular.woff2") format("woff2");}@font-face{font-family:"Pretendard";font-weight:500;font-display:swap;src:local("Pretendard Medium"),local("Pretendard Variable"),url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2/Pretendard-Medium.woff2") format("woff2");}@font-face{font-family:"Pretendard";font-weight:600;font-display:swap;src:local("Pretendard SemiBold"),local("Pretendard Variable"),url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2/Pretendard-SemiBold.woff2") format("woff2");}@font-face{font-family:"Pretendard";font-weight:700;font-display:swap;src:local("Pretendard Bold"),local("Pretendard Variable"),url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2/Pretendard-Bold.woff2") format("woff2");}</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>펌프 상사법칙 환산 계산기</title>
+<style>
+  :root{
+    --bg:#EDF1F3;
+    --card:#FFFFFF;
+    --ink:#1C2A33;
+    --muted:#5C6E79;
+    --line:#C8D4DA;
+    --accent:#0E6E8C;
+    --accent-bg:#E1EDF2;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+    font-size:15px;
+    line-height:1.65;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:28px 18px 56px}
+
+  header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:22px}
+  h1{font-size:clamp(22px,3.4vw,30px);letter-spacing:-.02em;margin:0 0 6px}
+  header p{margin:0;color:var(--muted);max-width:40em}
+
+  .cols{display:grid;grid-template-columns:1fr;gap:18px}
+  @media (min-width:860px){.cols{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+
+  .card{background:var(--card);border:1px solid var(--line);padding:18px}
+  h2{font-size:15px;letter-spacing:.01em;margin:0 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+
+  fieldset{border:0;margin:0 0 18px;padding:0}
+  fieldset:last-of-type{margin-bottom:0}
+  legend{font-size:12px;color:var(--accent);font-weight:700;padding:0;margin-bottom:8px}
+
+  .row{display:grid;grid-template-columns:1fr 128px;gap:8px;align-items:center;margin-bottom:8px}
+  label{font-size:14px}
+  label .sym{color:var(--muted);font-size:12.5px}
+  .unit{display:flex;align-items:center;border:1px solid var(--line);background:#FBFCFD}
+  .unit:focus-within{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-bg)}
+  input{
+    width:100%;min-width:0;border:0;background:transparent;padding:7px 8px;
+    font:inherit;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);
+  }
+  input:focus{outline:none}
+  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  input[type=number]{-moz-appearance:textfield}
+  .unit span{padding:0 8px 0 2px;font-size:12px;color:var(--muted);white-space:nowrap}
+
+  .btns{display:flex;gap:8px;margin-top:16px}
+  button{
+    font:inherit;padding:8px 14px;border:1px solid var(--line);background:#FBFCFD;
+    color:var(--ink);cursor:pointer;
+  }
+  button:hover{border-color:var(--accent);color:var(--accent)}
+  button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  .ratio{display:flex;gap:18px;flex-wrap:wrap;background:var(--accent-bg);padding:10px 12px;margin-bottom:16px}
+  .ratio div{font-size:13px;color:var(--muted)}
+  .ratio b{display:block;font-size:19px;color:var(--ink);font-variant-numeric:tabular-nums}
+
+  .out{border-top:1px solid var(--line);padding:11px 0;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .out:first-of-type{border-top:0}
+  .out .name{font-size:14px}
+  .out .name em{display:block;font-style:normal;font-size:12px;color:var(--muted)}
+  .out .val{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .out .val small{font-size:12px;font-weight:500;color:var(--muted);margin-left:3px}
+
+  .verdict{margin-top:16px;padding:12px 14px;border-left:4px solid var(--line);background:#F4F7F8;font-size:14px}
+  .verdict b{display:block;font-size:16px;margin-bottom:2px}
+  .verdict.ok{border-color:var(--accent);background:var(--accent-bg)}
+  .verdict.ng{border-color:#B4452F;background:#F8E9E5}
+
+  .formula{margin-top:22px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+  thead th{font-size:12px;color:var(--muted);border-bottom:1px solid var(--ink)}
+  td.f{font-variant-numeric:tabular-nums;white-space:nowrap}
+  footer{margin-top:26px;color:var(--muted);font-size:12.5px}
+
+  .full{margin-top:18px}
+  .dens{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:16px 24px}
+  .dens table{font-size:13px}
+  .blk h3{font-size:12px;color:var(--accent);font-weight:700;margin:0 0 6px}
+  .dens th,.dens td{padding:5px 6px}
+  .dens td{font-variant-numeric:tabular-nums;text-align:right}
+  .dens td:first-child{text-align:left}
+  .dens tr.mark td{background:var(--accent-bg);font-weight:700}
+  .note{margin:12px 0 0;color:var(--muted);font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>펌프 상사법칙 환산 계산기</h1>
+    <p>Shop 성능시험 결과(rpm·비중량 기준)를 현장 운전조건으로 환산하고, 환산 축동력을 TCO 보증전력과 비교합니다.</p>
+  </header>
+
+  <div class="cols">
+    <!-- 입력 -->
+    <section class="card">
+      <h2>입력값</h2>
+
+      <fieldset>
+        <legend>현장 조건</legend>
+        <div class="row">
+          <label for="tco">TCO 보증전력</label>
+          <div class="unit"><input type="number" id="tco" step="any" placeholder="0"><span>kW</span></div>
+        </div>
+        <div class="row">
+          <label for="n2">현장 모터 회전수 <span class="sym">N₂</span></label>
+          <div class="unit"><input type="number" id="n2" step="any" placeholder="0"><span>rpm</span></div>
+        </div>
+        <div class="row">
+          <label for="eff">현장 모터 효율</label>
+          <div class="unit"><input type="number" id="eff" step="any" placeholder="0"><span>%</span></div>
+        </div>
+        <div class="row">
+          <label for="y2">환산 액체 비중량 <span class="sym">γ₂</span></label>
+          <div class="unit"><input type="number" id="y2" step="any" placeholder="0"><span>kgf/m³</span></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Shop 시험 조건</legend>
+        <div class="row">
+          <label for="n1">Shop 모터 회전수 <span class="sym">N₁</span></label>
+          <div class="unit"><input type="number" id="n1" step="any" placeholder="0"><span>rpm</span></div>
+        </div>
+        <div class="row">
+          <label for="y1">Shop 액체 비중량 <span class="sym">γ₁</span></label>
+          <div class="unit"><input type="number" id="y1" step="any" placeholder="0"><span>kgf/m³</span></div>
+        </div>
+        <div class="row">
+          <label for="bhp1">Shop 축동력 <span class="sym">BHP₁</span></label>
+          <div class="unit"><input type="number" id="bhp1" step="any" placeholder="0"><span>kW</span></div>
+        </div>
+        <div class="row">
+          <label for="q1">Shop 유량 <span class="sym">Q₁</span></label>
+          <div class="unit"><input type="number" id="q1" step="any" placeholder="0"><span>m³/h</span></div>
+        </div>
+        <div class="row">
+          <label for="h1">Shop 압력(양정) <span class="sym">H₁</span></label>
+          <div class="unit"><input type="number" id="h1" step="any" placeholder="0"><span>m</span></div>
+        </div>
+      </fieldset>
+
+      <div class="btns">
+        <button type="button" id="reset">입력값 지우기</button>
+        <button type="button" id="sample">예시값 채우기</button>
+      </div>
+    </section>
+
+    <!-- 결과 -->
+    <section class="card">
+      <h2>환산 결과</h2>
+
+      <div class="ratio">
+        <div>회전수비 N₂/N₁<b id="rn">—</b></div>
+        <div>비중량비 γ₂/γ₁<b id="ry">—</b></div>
+      </div>
+
+      <div class="out">
+        <div class="name">환산 축동력 <em>BHP₂ = BHP₁ × (N₂/N₁)³ × (γ₂/γ₁)</em></div>
+        <div class="val" id="bhp2">—<small>kW</small></div>
+      </div>
+      <div class="out">
+        <div class="name">환산 유량 <em>Q₂ = Q₁ × (N₂/N₁)</em></div>
+        <div class="val" id="q2">—<small>m³/h</small></div>
+      </div>
+      <div class="out">
+        <div class="name">환산 압력 <em>H₂ = H₁ × (N₂/N₁)²</em></div>
+        <div class="val" id="h2">—<small>m</small></div>
+      </div>
+      <div class="out">
+        <div class="name">모터 소요전력 <em>BHP₂ ÷ 모터 효율</em></div>
+        <div class="val" id="pin">—<small>kW</small></div>
+      </div>
+
+      <div class="verdict" id="verdict">
+        <b>입력 대기</b>
+        N₁, N₂ 와 Shop 시험값을 넣으면 환산값이 바로 계산됩니다. TCO 보증전력과 모터 효율을 넣으면 보증 여유율까지 판정합니다.
+      </div>
+
+      <div class="formula">
+        <h2>적용 식</h2>
+        <table>
+          <thead><tr><th>항목</th><th>환산식</th><th>비례 관계</th></tr></thead>
+          <tbody>
+            <tr><td>축동력</td><td class="f">BHP₂ = BHP₁ × (N₂/N₁)³ × (γ₂/γ₁)</td><td>N³ · γ</td></tr>
+            <tr><td>유량</td><td class="f">Q₂ = Q₁ × (N₂/N₁)</td><td>N</td></tr>
+            <tr><td>압력</td><td class="f">H₂ = H₁ × (N₂/N₁)²</td><td>N²</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <footer>효율은 1~100 % 범위의 값으로 입력합니다. 상사법칙은 동일 펌프·동일 임펠러 직경 기준이며, 회전수 변화가 클 경우 효율 변화는 별도 검토가 필요합니다.</footer>
+    </section>
+  </div>
+
+  <section class="card full">
+    <h2>물의 밀도 표 (0 °C ~ 임계점)</h2>
+    <div class="dens">
+      <div class="blk">
+        <h3>상온 구간 · 0 ~ 30 °C (1 °C 간겍)</h3>
+        <table>
+          <thead><tr><th>온도 (°C)</th><th>밀도 (g/mL)</th><th>밀도 (kg/m³)</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td>0.99984</td><td>999.84</td></tr>
+            <tr><td>1</td><td>0.99990</td><td>999.90</td></tr>
+            <tr><td>2</td><td>0.99994</td><td>999.94</td></tr>
+            <tr><td>3</td><td>0.99997</td><td>999.97</td></tr>
+            <tr class="mark"><td>4</td><td>0.99998</td><td>999.98</td></tr>
+            <tr><td>5</td><td>0.99997</td><td>999.97</td></tr>
+            <tr><td>6</td><td>0.99994</td><td>999.94</td></tr>
+            <tr><td>7</td><td>0.99990</td><td>999.90</td></tr>
+            <tr><td>8</td><td>0.99985</td><td>999.85</td></tr>
+            <tr><td>9</td><td>0.99978</td><td>999.78</td></tr>
+            <tr><td>10</td><td>0.99970</td><td>999.70</td></tr>
+            <tr><td>11</td><td>0.99961</td><td>999.61</td></tr>
+            <tr><td>12</td><td>0.99950</td><td>999.50</td></tr>
+            <tr><td>13</td><td>0.99938</td><td>999.38</td></tr>
+            <tr><td>14</td><td>0.99925</td><td>999.25</td></tr>
+            <tr><td>15</td><td>0.99910</td><td>999.10</td></tr>
+            <tr><td>16</td><td>0.99895</td><td>998.95</td></tr>
+            <tr><td>17</td><td>0.99878</td><td>998.78</td></tr>
+            <tr><td>18</td><td>0.99860</td><td>998.60</td></tr>
+            <tr><td>19</td><td>0.99841</td><td>998.41</td></tr>
+            <tr><td>20</td><td>0.99821</td><td>998.21</td></tr>
+            <tr><td>21</td><td>0.99800</td><td>998.00</td></tr>
+            <tr><td>22</td><td>0.99777</td><td>997.77</td></tr>
+            <tr><td>23</td><td>0.99754</td><td>997.54</td></tr>
+            <tr><td>24</td><td>0.99730</td><td>997.30</td></tr>
+            <tr><td>25</td><td>0.99705</td><td>997.05</td></tr>
+            <tr><td>26</td><td>0.99679</td><td>996.79</td></tr>
+            <tr><td>27</td><td>0.99652</td><td>996.52</td></tr>
+            <tr><td>28</td><td>0.99624</td><td>996.24</td></tr>
+            <tr><td>29</td><td>0.99599</td><td>995.99</td></tr>
+            <tr><td>30</td><td>0.99565</td><td>995.65</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="blk">
+        <h3>고온 구간 · 35 ~ 373.946 °C (포화수)</h3>
+        <table>
+          <thead><tr><th>온도 (°C)</th><th>밀도 (g/mL)</th><th>밀도 (kg/m³)</th></tr></thead>
+          <tbody>
+            <tr><td>35</td><td>0.99403</td><td>994.03</td></tr>
+            <tr><td>40</td><td>0.99222</td><td>992.22</td></tr>
+            <tr><td>45</td><td>0.99021</td><td>990.21</td></tr>
+            <tr><td>50</td><td>0.98804</td><td>988.04</td></tr>
+            <tr><td>55</td><td>0.98569</td><td>985.69</td></tr>
+            <tr><td>60</td><td>0.98320</td><td>983.20</td></tr>
+            <tr><td>65</td><td>0.98055</td><td>980.55</td></tr>
+            <tr><td>70</td><td>0.97776</td><td>977.76</td></tr>
+            <tr><td>75</td><td>0.97484</td><td>974.84</td></tr>
+            <tr><td>80</td><td>0.97179</td><td>971.79</td></tr>
+            <tr><td>85</td><td>0.96861</td><td>968.61</td></tr>
+            <tr><td>90</td><td>0.96531</td><td>965.31</td></tr>
+            <tr><td>95</td><td>0.96189</td><td>961.89</td></tr>
+            <tr><td>100</td><td>0.95835</td><td>958.35</td></tr>
+            <tr><td>110</td><td>0.95095</td><td>950.95</td></tr>
+            <tr><td>120</td><td>0.94311</td><td>943.11</td></tr>
+            <tr><td>140</td><td>0.92613</td><td>926.13</td></tr>
+            <tr><td>160</td><td>0.90745</td><td>907.45</td></tr>
+            <tr><td>180</td><td>0.88700</td><td>887.00</td></tr>
+            <tr><td>200</td><td>0.86466</td><td>864.66</td></tr>
+            <tr><td>220</td><td>0.84022</td><td>840.22</td></tr>
+            <tr><td>240</td><td>0.81337</td><td>813.37</td></tr>
+            <tr><td>260</td><td>0.78363</td><td>783.63</td></tr>
+            <tr><td>280</td><td>0.75028</td><td>750.28</td></tr>
+            <tr><td>300</td><td>0.71214</td><td>712.14</td></tr>
+            <tr><td>320</td><td>0.66709</td><td>667.09</td></tr>
+            <tr><td>340</td><td>0.61067</td><td>610.67</td></tr>
+            <tr><td>360</td><td>0.52759</td><td>527.59</td></tr>
+            <tr class="mark"><td>373.946</td><td>0.32200</td><td>322.00</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note">0 ~ 30 °C 는 표 4.1(g/mL) 기준, 35 °C 이상은 포화수 밀도(kg/m³) 기준이고 나머지 단위는 1,000 및 으로 환산해 병기했습니다. 4 °C 는 최대 밀도점, 373.946 °C 는 임계점입니다. 비중량 γ 엔 kg/m³ 값을 그대로 사용하십시오.</p>
+  </section>
+</div>
+
+<script>
+  var ids = ["tco","n2","eff","y2","n1","y1","bhp1","q1","h1"];
+  var el = {};
+  ids.concat(["rn","ry","bhp2","q2","h2","pin","verdict"]).forEach(function(k){ el[k] = document.getElementById(k); });
+
+  function num(id){
+    var v = parseFloat(el[id].value);
+    return isFinite(v) ? v : null;
+  }
+  function fmt(v, d){
+    if(v === null || !isFinite(v)) return null;
+    return v.toLocaleString("ko-KR",{minimumFractionDigits:d, maximumFractionDigits:d});
+  }
+  function put(id, v, d, unit){
+    var s = fmt(v, d);
+    el[id].innerHTML = (s === null ? "—" : s) + "<small>" + unit + "</small>";
+  }
+  function setVerdict(cls, title, body){
+    el.verdict.className = "verdict" + (cls ? " " + cls : "");
+    el.verdict.innerHTML = "<b>" + title + "</b>" + body;
+  }
+
+  function calc(){
+    var n1 = num("n1"), n2 = num("n2"), y1 = num("y1"), y2 = num("y2");
+    var bhp1 = num("bhp1"), q1 = num("q1"), h1 = num("h1"), eff = num("eff"), tco = num("tco");
+
+    var rn = (n1 && n2 !== null && n1 !== 0) ? n2 / n1 : null;
+    var ry = (y1 && y2 !== null && y1 !== 0) ? y2 / y1 : null;
+
+    el.rn.textContent = rn === null ? "—" : fmt(rn, 4);
+    el.ry.textContent = ry === null ? "—" : fmt(ry, 4);
+
+    var bhp2 = (rn !== null && ry !== null && bhp1 !== null) ? bhp1 * Math.pow(rn,3) * ry : null;
+    var q2   = (rn !== null && q1 !== null) ? q1 * rn : null;
+    var h2   = (rn !== null && h1 !== null) ? h1 * Math.pow(rn,2) : null;
+    var pin  = (bhp2 !== null && eff !== null && eff > 0) ? bhp2 / (eff/100) : null;
+
+    put("bhp2", bhp2, 2, "kW");
+    put("q2",   q2,   2, "m³/h");
+    put("h2",   h2,   2, "m");
+    put("pin",  pin,  2, "kW");
+
+    if(n1 === 0 || y1 === 0){
+      setVerdict("ng","0 으로 나눌 수 없음","Shop 회전수 N₁ 과 Shop 비중량 γ₁ 은 0 이 아닌 값이어야 합니다.");
+      return;
+    }
+    if(bhp2 === null){
+      setVerdict("", "입력 대기", "N₁, N₂, γ₁, γ₂, BHP₁ 을 모두 입력하면 환산 축동력이 계산됩니다.");
+      return;
+    }
+    if(tco === null || tco <= 0){
+      setVerdict("", "보증전력 비교 보류", "환산 축동력은 <b>" + fmt(bhp2,2) + " kW</b> 입니다. TCO 보증전력을 입력하면 여유율을 판정합니다.");
+      return;
+    }
+    var cmp = (pin !== null) ? pin : bhp2;
+    var basis = (pin !== null) ? "모터 소요전력" : "환산 축동력(효율 미입력)";
+    var margin = (tco - cmp) / tco * 100;
+    if(cmp <= tco){
+      setVerdict("ok","보증전력 이내",
+        basis + " <b>" + fmt(cmp,2) + " kW</b> ≤ TCO 보증전력 " + fmt(tco,2) + " kW · 여유 " + fmt(margin,1) + " %");
+    }else{
+      setVerdict("ng","보증전력 초과",
+        basis + " <b>" + fmt(cmp,2) + " kW</b> > TCO 보증전력 " + fmt(tco,2) + " kW · 초과 " + fmt(-margin,1) + " % (" + fmt(cmp-tco,2) + " kW)");
+    }
+  }
+
+  ids.forEach(function(k){ el[k].addEventListener("input", calc); });
+
+  document.getElementById("reset").addEventListener("click", function(){
+    ids.forEach(function(k){ el[k].value = ""; });
+    calc();
+    el.n2.focus();
+  });
+
+  document.getElementById("sample").addEventListener("click", function(){
+    var s = {tco:250, n2:1780, eff:95, y2:1000, n1:1750, y1:998, bhp1:200, q1:500, h1:80};
+    ids.forEach(function(k){ el[k].value = s[k]; });
+    calc();
+  });
+
+  calc();
+</script>
+</body>
+</html>
