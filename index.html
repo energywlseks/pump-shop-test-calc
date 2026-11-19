@@ -13,7 +13,7 @@
     --ink:#1C2A33;
     --muted:#5C6E79;
     --line:#C8D4DA;
-    --accent:#0E6E8C;
+    --accent:#0F6FB5;
     --accent-bg:#E1EDF2;
   }
   *{box-sizing:border-box}
@@ -163,14 +163,14 @@
     <section class="card">
       <h2>환산 결과</h2>
 
-      <div class="ratio">
-        <div>회전수비 N₂/N₁<b id="rn">—</b></div>
-        <div>비중량비 γ₂/γ₁<b id="ry">—</b></div>
+      <div class="verdict" id="verdict">
+        <b>입력 대기</b>
+        N₁, N₂ 와 Shop 시험값을 넣으면 환산값이 바로 계산됩니다. TCO 보증전력과 모터 효율을 넣으면 보증 여유율까지 판정합니다.
       </div>
 
       <div class="out">
-        <div class="name">환산 축동력 <em>BHP₂ = BHP₁ × (N₂/N₁)³ × (γ₂/γ₁)</em></div>
-        <div class="val" id="bhp2">—<small>kW</small></div>
+        <div class="name">환산 소비동력 <em>BHP₂ ÷ 모터 효율</em></div>
+        <div class="val" id="pin">—<small>kW</small></div>
       </div>
       <div class="out">
         <div class="name">환산 유량 <em>Q₂ = Q₁ × (N₂/N₁)</em></div>
@@ -181,13 +181,13 @@
         <div class="val" id="h2">—<small>m</small></div>
       </div>
       <div class="out">
-        <div class="name">모터 소요전력 <em>BHP₂ ÷ 모터 효율</em></div>
-        <div class="val" id="pin">—<small>kW</small></div>
+        <div class="name">환산 축동력 <em>BHP₂ = BHP₁ × (N₂/N₁)³ × (γ₂/γ₁)</em></div>
+        <div class="val" id="bhp2">—<small>kW</small></div>
       </div>
 
-      <div class="verdict" id="verdict">
-        <b>입력 대기</b>
-        N₁, N₂ 와 Shop 시험값을 넣으면 환산값이 바로 계산됩니다. TCO 보증전력과 모터 효율을 넣으면 보증 여유율까지 판정합니다.
+      <div class="ratio">
+        <div>회전수비 N₂/N₁<b id="rn">—</b></div>
+        <div>비중량비 γ₂/γ₁<b id="ry">—</b></div>
       </div>
 
       <div class="formula">
@@ -210,7 +210,7 @@
     <h2>물의 밀도 표 (0 °C ~ 임계점)</h2>
     <div class="dens">
       <div class="blk">
-        <h3>상온 구간 · 0 ~ 30 °C (1 °C 간겍)</h3>
+        <h3>상온 구간 · 0 ~ 30 °C (1 °C 간격)</h3>
         <table>
           <thead><tr><th>온도 (°C)</th><th>밀도 (g/mL)</th><th>밀도 (kg/m³)</th></tr></thead>
           <tbody>
@@ -340,19 +340,21 @@
       setVerdict("", "입력 대기", "N₁, N₂, γ₁, γ₂, BHP₁ 을 모두 입력하면 환산 축동력이 계산됩니다.");
       return;
     }
-    if(tco === null || tco <= 0){
-      setVerdict("", "보증전력 비교 보류", "환산 축동력은 <b>" + fmt(bhp2,2) + " kW</b> 입니다. TCO 보증전력을 입력하면 여유율을 판정합니다.");
+    if(eff === null || eff <= 0){
+      setVerdict("", "입력 대기", "현장 모터 효율을 입력하세요.");
       return;
     }
-    var cmp = (pin !== null) ? pin : bhp2;
-    var basis = (pin !== null) ? "모터 소요전력" : "환산 축동력(효율 미입력)";
-    var margin = (tco - cmp) / tco * 100;
-    if(cmp <= tco){
-      setVerdict("ok","보증전력 이내",
-        basis + " <b>" + fmt(cmp,2) + " kW</b> ≤ TCO 보증전력 " + fmt(tco,2) + " kW · 여유 " + fmt(margin,1) + " %");
+    if(tco === null || tco <= 0){
+      setVerdict("", "보증전력 비교 보류", "환산 소비동력은 <b>" + fmt(pin,1) + " kW</b> 입니다. TCO 보증전력을 입력하면 여유율을 판정합니다.");
+      return;
+    }
+    var margin = (tco - pin) / tco * 100;
+    if(pin <= tco){
+      setVerdict("ok","환산 소비동력 " + fmt(pin,1) + " ≤ 보증전력 " + fmt(tco,1) + " (kW)",
+        "통과");
     }else{
-      setVerdict("ng","보증전력 초과",
-        basis + " <b>" + fmt(cmp,2) + " kW</b> > TCO 보증전력 " + fmt(tco,2) + " kW · 초과 " + fmt(-margin,1) + " % (" + fmt(cmp-tco,2) + " kW)");
+      setVerdict("ng","환산 소비동력 " + fmt(pin,1) + " > 보증전력 " + fmt(tco,1) + " (kW)",
+        "초과 " + fmt(-margin,1) + " % (+" + fmt(pin-tco,1) + " kW)");
     }
   }
 
@@ -361,7 +363,7 @@
   document.getElementById("reset").addEventListener("click", function(){
     ids.forEach(function(k){ el[k].value = ""; });
     calc();
-    el.n2.focus();
+    el.tco.focus();
   });
 
   document.getElementById("sample").addEventListener("click", function(){
