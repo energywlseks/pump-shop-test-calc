@@ -3,98 +3,149 @@
 <head>
 <!-- Pretendard: 설치본 → jsDelivr CDN 순으로 시도. 둘 다 안 되면 문서의 대체 글꼴로 표시된다. -->
 <style data-pgpt-fonts>@font-face{font-family:"Pretendard";font-weight:400;font-display:swap;src:local("Pretendard Regular"),local("Pretendard Variable"),url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2/Pretendard-Regular.woff2") format("woff2");}@font-face{font-family:"Pretendard";font-weight:500;font-display:swap;src:local("Pretendard Medium"),local("Pretendard Variable"),url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2/Pretendard-Medium.woff2") format("woff2");}@font-face{font-family:"Pretendard";font-weight:600;font-display:swap;src:local("Pretendard SemiBold"),local("Pretendard Variable"),url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2/Pretendard-SemiBold.woff2") format("woff2");}@font-face{font-family:"Pretendard";font-weight:700;font-display:swap;src:local("Pretendard Bold"),local("Pretendard Variable"),url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2/Pretendard-Bold.woff2") format("woff2");}</style>
+<!-- Pretendard: 설치본 → jsDelivr CDN 순으로 시도. 둘 다 안 되면 문서의 대체 글꼴로 표시된다. -->
+<style data-pgpt-fonts>@font-face{font-family:"Pretendard";font-weight:400;font-display:swap;src:local("Pretendard Regular"),local("Pretendard Variable"),url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2/Pretendard-Regular.woff2") format("woff2");}@font-face{font-family:"Pretendard";font-weight:500;font-display:swap;src:local("Pretendard Medium"),local("Pretendard Variable"),url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2/Pretendard-Medium.woff2") format("woff2");}@font-face{font-family:"Pretendard";font-weight:600;font-display:swap;src:local("Pretendard SemiBold"),local("Pretendard Variable"),url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2/Pretendard-SemiBold.woff2") format("woff2");}@font-face{font-family:"Pretendard";font-weight:700;font-display:swap;src:local("Pretendard Bold"),local("Pretendard Variable"),url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/woff2/Pretendard-Bold.woff2") format("woff2");}</style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>펌프 상사법칙 환산 계산기</title>
 <style>
   :root{
-    --bg:#EDF1F3;
+    --bg:#F6F9FA;
     --card:#FFFFFF;
-    --ink:#1C2A33;
-    --muted:#5C6E79;
-    --line:#C8D4DA;
-    --accent:#0F6FB5;
-    --accent-bg:#E1EDF2;
+    --ink:#15262B;
+    --ink2:#5C7076;
+    --line:#D9E4E7;
+    --accent:#0E6E7A;
+    --accent-bg:#E6F1F2;
+    --accent-line:#CBE1E3;
+    --warn:#8C3A2E;
+    --warn-bg:#F9ECE8;
   }
-  *{box-sizing:border-box}
+  *{box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact}
   html,body{margin:0}
   body{
-    background:var(--bg);
-    color:var(--ink);
+    background:var(--bg); color:var(--ink);
     font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
-    font-size:15px;
-    line-height:1.65;
+    font-size:15px; line-height:1.65;
   }
-  .wrap{max-width:1040px;margin:0 auto;padding:28px 18px 56px}
+  .wrap{max-width:1000px;margin:0 auto;padding:30px 20px 60px}
 
-  header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:22px}
-  h1{font-size:clamp(22px,3.4vw,30px);letter-spacing:-.02em;margin:0 0 6px}
-  header p{margin:0;color:var(--muted);max-width:40em}
+  header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:22px}
+  h1{font-size:clamp(22px,4vw,29px);letter-spacing:-.025em;margin:0 0 6px}
+  header p{margin:0;color:var(--ink2);font-size:14px;max-width:46em}
 
-  .cols{display:grid;grid-template-columns:1fr;gap:18px}
-  @media (min-width:860px){.cols{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+  .cols{display:grid;grid-template-columns:1fr;gap:18px;align-items:start}
+  @media (min-width:880px){.cols{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 
-  .card{background:var(--card);border:1px solid var(--line);padding:18px}
-  h2{font-size:15px;letter-spacing:.01em;margin:0 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px}
+  .eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.06em;color:var(--accent);margin:0 0 3px}
+  h2{font-size:16px;letter-spacing:-.01em;margin:0 0 18px}
+  h2.ruled{padding-bottom:12px;border-bottom:1px solid var(--line)}
 
-  fieldset{border:0;margin:0 0 18px;padding:0}
+  fieldset{border:0;margin:0 0 20px;padding:0}
   fieldset:last-of-type{margin-bottom:0}
-  legend{font-size:12px;color:var(--accent);font-weight:700;padding:0;margin-bottom:8px}
+  legend{font-size:11.5px;font-weight:700;letter-spacing:.04em;color:var(--ink2);padding:0;margin-bottom:10px}
 
-  .row{display:grid;grid-template-columns:1fr 128px;gap:8px;align-items:center;margin-bottom:8px}
+  .row{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:10px;align-items:center;margin-bottom:9px}
   label{font-size:14px}
-  label .sym{color:var(--muted);font-size:12.5px}
-  .unit{display:flex;align-items:center;border:1px solid var(--line);background:#FBFCFD}
-  .unit:focus-within{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-bg)}
-  input{
-    width:100%;min-width:0;border:0;background:transparent;padding:7px 8px;
-    font:inherit;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);
-  }
+  label .sym{color:var(--ink2);font-size:12.5px;margin-left:2px}
+  .unit{display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;background:#FCFDFD;transition:border-color .12s, box-shadow .12s}
+  .unit:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+  input{width:100%;min-width:0;border:0;background:transparent;padding:9px 4px 9px 10px;
+    font:inherit;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
   input:focus{outline:none}
   input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
   input[type=number]{-moz-appearance:textfield}
-  .unit span{padding:0 8px 0 2px;font-size:12px;color:var(--muted);white-space:nowrap}
+  .unit span{padding:0 10px 0 4px;font-size:12px;color:var(--ink2);white-space:nowrap}
 
-  .btns{display:flex;gap:8px;margin-top:16px}
-  button{
-    font:inherit;padding:8px 14px;border:1px solid var(--line);background:#FBFCFD;
-    color:var(--ink);cursor:pointer;
-  }
-  button:hover{border-color:var(--accent);color:var(--accent)}
+  .btns{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+  button{font:inherit;font-size:14px;padding:9px 15px;border:1px solid var(--line);border-radius:8px;
+    background:#FCFDFD;color:var(--ink);cursor:pointer;transition:border-color .12s,color .12s,background .12s}
+  button:hover{border-color:var(--accent);color:var(--accent);background:#fff}
   button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  button.primary:hover{background:#0B5C66;color:#fff}
 
-  .ratio{display:flex;gap:18px;flex-wrap:wrap;background:var(--accent-bg);padding:10px 12px;margin-bottom:16px}
-  .ratio div{font-size:13px;color:var(--muted)}
-  .ratio b{display:block;font-size:19px;color:var(--ink);font-variant-numeric:tabular-nums}
+  /* 결과 */
+  .hero{background:var(--accent-bg);border:1px solid var(--accent-line);border-radius:10px;padding:20px}
+  .hero .lab{margin:0;font-size:12.5px;color:var(--ink2)}
+  .hero .big{margin:2px 0 0;font-size:clamp(34px,7vw,44px);font-weight:700;letter-spacing:-.03em;
+    color:var(--accent);font-variant-numeric:tabular-nums;line-height:1.15}
+  .hero .big small{font-size:.4em;font-weight:600;color:var(--ink2);margin-left:6px}
 
-  .out{border-top:1px solid var(--line);padding:11px 0;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-  .out:first-of-type{border-top:0}
-  .out .name{font-size:14px}
-  .out .name em{display:block;font-style:normal;font-size:12px;color:var(--muted)}
-  .out .val{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .out .val small{font-size:12px;font-weight:500;color:var(--muted);margin-left:3px}
+  .verdict{margin-top:14px;padding:13px 15px;border:1px solid var(--line);border-left:4px solid var(--line);
+    border-radius:8px;background:#F4F8F9;font-size:13.5px;color:var(--ink2)}
+  .verdict b{display:block;font-size:15px;color:var(--ink);margin-bottom:2px}
+  .verdict.ok{border-color:var(--accent-line);border-left-color:var(--accent);background:var(--accent-bg)}
+  .verdict.ok b{color:var(--accent)}
+  .verdict.ng{border-color:#EBD2CC;border-left-color:#B4452F;background:var(--warn-bg)}
+  .verdict.ng b{color:#8C3A2E}
 
-  .verdict{margin-top:16px;padding:12px 14px;border-left:4px solid var(--line);background:#F4F7F8;font-size:14px}
-  .verdict b{display:block;font-size:16px;margin-bottom:2px}
-  .verdict.ok{border-color:var(--accent);background:var(--accent-bg)}
-  .verdict.ng{border-color:#B4452F;background:#F8E9E5}
+  dl.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px 18px;margin:20px 0 0}
+  dl.kpi dt{font-size:12px;color:var(--ink2)}
+  dl.kpi dd{margin:2px 0 0;font-size:21px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  dl.kpi dd small{font-size:11.5px;font-weight:500;color:var(--ink2);margin-left:3px}
+  dl.kpi .eq{margin:1px 0 0;font-size:11px;color:var(--ink2)}
 
-  .formula{margin-top:22px}
+  .ratio{display:flex;gap:22px;flex-wrap:wrap;margin:20px 0 0;padding:12px 15px;
+    background:#F4F8F9;border-radius:8px;border:1px solid var(--line)}
+  .ratio div{font-size:12px;color:var(--ink2)}
+  .ratio b{display:block;font-size:18px;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+
   table{width:100%;border-collapse:collapse;font-size:13.5px}
-  th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
-  thead th{font-size:12px;color:var(--muted);border-bottom:1px solid var(--ink)}
+  th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}
+  thead th{font-size:11.5px;font-weight:600;color:var(--ink2);background:#F2F7F8}
+  thead th:first-child{border-radius:6px 0 0 0}
+  thead th:last-child{border-radius:0 6px 0 0}
   td.f{font-variant-numeric:tabular-nums;white-space:nowrap}
-  footer{margin-top:26px;color:var(--muted);font-size:12.5px}
+  .formula{margin-top:26px}
+  footer{margin-top:22px;color:var(--ink2);font-size:12.5px}
 
+  /* 밀도 계산기 */
+  details.dtool{border:1px solid var(--accent-line);border-radius:10px;background:#FBFDFD;margin:4px 0 14px;overflow:hidden}
+  details.dtool>summary{list-style:none;cursor:pointer;padding:11px 13px;font-size:13px;font-weight:600;
+    color:var(--accent);display:flex;align-items:center;justify-content:space-between;gap:10px}
+  details.dtool>summary::-webkit-details-marker{display:none}
+  details.dtool>summary::after{content:"＋";font-size:13px;color:var(--ink2);font-weight:400}
+  details.dtool[open]>summary{border-bottom:1px solid var(--line)}
+  details.dtool[open]>summary::after{content:"－"}
+  details.dtool>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
+  .tool{padding:14px 13px}
+  .tool .row{grid-template-columns:minmax(0,1fr) 128px;margin-bottom:0}
+  .tool input[type=range]{width:100%;margin:12px 0 0;padding:0;accent-color:var(--accent);text-align:left}
+  .rng{display:flex;justify-content:space-between;font-size:11px;color:var(--ink2);font-variant-numeric:tabular-nums}
+  .res{background:var(--accent-bg);border-radius:8px;padding:14px;margin-top:12px}
+  .res .lab{margin:0;font-size:11.5px;color:var(--ink2)}
+  .res .big{margin:0;font-size:29px;font-weight:700;letter-spacing:-.03em;color:var(--accent);
+    font-variant-numeric:tabular-nums;line-height:1.2}
+  .res .big small{font-size:.42em;font-weight:600;color:var(--ink2);margin-left:5px}
+  .res dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px 14px;margin:12px 0 0}
+  .res dt{font-size:11px;color:var(--ink2)}
+  .res dd{margin:1px 0 0;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+  .res .err{color:var(--warn);font-size:15px;font-weight:600}
+  .res .warn{margin:11px 0 0;padding:8px 10px;border-radius:6px;background:var(--warn-bg);
+    color:var(--warn);font-size:11.5px;line-height:1.5}
+  .tool .btns{margin-top:12px}
+
+  /* 하단 밀도표 */
   .full{margin-top:18px}
-  .dens{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:16px 24px}
-  .dens table{font-size:13px}
-  .blk h3{font-size:12px;color:var(--accent);font-weight:700;margin:0 0 6px}
-  .dens th,.dens td{padding:5px 6px}
+  .dens{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px 26px;margin-top:16px}
+  .dens table{font-size:12.5px}
+  .dens th,.dens td{padding:5px 7px}
   .dens td{font-variant-numeric:tabular-nums;text-align:right}
-  .dens td:first-child{text-align:left}
-  .dens tr.mark td{background:var(--accent-bg);font-weight:700}
-  .note{margin:12px 0 0;color:var(--muted);font-size:12.5px}
+  .dens td:first-child{text-align:left;color:var(--ink2)}
+  .dens tr.mark td{background:var(--accent-bg);font-weight:700;color:var(--ink)}
+  .blk h3{font-size:11.5px;font-weight:700;letter-spacing:.03em;color:var(--accent);margin:0 0 7px}
+  h3.sub{font-size:14px;margin:0;letter-spacing:-.01em}
+  .sec2{margin-top:32px;padding-top:24px;border-top:1px solid var(--line)}
+  .cond{margin:20px 0 0;padding:14px 16px;background:#F4F8F9;border:1px solid var(--line);
+    border-left:4px solid var(--accent);border-radius:8px;font-size:13px}
+  .cond b{display:block;font-size:12.5px;margin-bottom:5px}
+  .cond ul{margin:0;padding-left:18px;color:var(--ink2)}
+  .cond li{margin:2px 0}
+  .ref{margin:13px 0 0;color:var(--ink2);font-size:12.5px;word-break:break-all}
+  .ref a{color:var(--accent)}
+  .note{margin:9px 0 0;color:var(--ink2);font-size:12.5px}
 </style>
 </head>
 <body>
@@ -107,7 +158,8 @@
   <div class="cols">
     <!-- 입력 -->
     <section class="card">
-      <h2>입력값</h2>
+      <p class="eyebrow">STEP 1</p>
+      <h2 class="ruled">입력값</h2>
 
       <fieldset>
         <legend>현장 조건</legend>
@@ -135,6 +187,34 @@
           <label for="n1">Shop 모터 회전수 <span class="sym">N₁</span></label>
           <div class="unit"><input type="number" id="n1" step="any" placeholder="0"><span>rpm</span></div>
         </div>
+
+        <details class="dtool" open>
+          <summary>물 밀도 계산기 · 수온 → 비중량 γ (0 ~ 373.946 °C)</summary>
+          <div class="tool">
+            <div class="row">
+              <label for="wt">수온</label>
+              <div class="unit"><input type="number" id="wt" step="0.01" min="0" max="373.946" value="20" placeholder="0"><span>°C</span></div>
+            </div>
+            <input type="range" id="wtr" min="0" max="373.9" step="0.1" value="20" aria-label="수온 슬라이더">
+            <div class="rng"><span>0</span><span>100</span><span>373.9</span></div>
+
+            <div class="res">
+              <p class="lab">밀도 D</p>
+              <p class="big" id="dOut">0.998207<small>g/mL</small></p>
+              <dl>
+                <div><dt>kg/m³ (= γ 입력값)</dt><dd id="dSI">998.21</dd></div>
+                <div><dt>비체적</dt><dd id="dV">1.001796 mL/g</dd></div>
+                <div><dt>데이터 기준</dt><dd id="dM" style="font-size:12.5px;font-weight:500">1 기압 표값 직접</dd></div>
+              </dl>
+              <p class="warn" id="dW" hidden></p>
+            </div>
+
+            <div class="btns">
+              <button type="button" class="primary" id="toY1">Shop 액체 비중량에 입력</button>
+            </div>
+          </div>
+        </details>
+
         <div class="row">
           <label for="y1">Shop 액체 비중량 <span class="sym">γ₁</span></label>
           <div class="unit"><input type="number" id="y1" step="any" placeholder="0"><span>kgf/m³</span></div>
@@ -154,36 +234,43 @@
       </fieldset>
 
       <div class="btns">
-        <button type="button" id="reset">입력값 지우기</button>
         <button type="button" id="sample">예시값 채우기</button>
+        <button type="button" id="reset">입력값 지우기</button>
       </div>
     </section>
 
     <!-- 결과 -->
     <section class="card">
-      <h2>환산 결과</h2>
+      <p class="eyebrow">STEP 2</p>
+      <h2 class="ruled">환산 결과</h2>
+
+      <div class="hero">
+        <p class="lab">환산 소비동력 · BHP₂ ÷ 모터 효율</p>
+        <p class="big" id="pin">—<small>kW</small></p>
+      </div>
 
       <div class="verdict" id="verdict">
         <b>입력 대기</b>
         N₁, N₂ 와 Shop 시험값을 넣으면 환산값이 바로 계산됩니다. TCO 보증전력과 모터 효율을 넣으면 보증 여유율까지 판정합니다.
       </div>
 
-      <div class="out">
-        <div class="name">환산 소비동력 <em>BHP₂ ÷ 모터 효율</em></div>
-        <div class="val" id="pin">—<small>kW</small></div>
-      </div>
-      <div class="out">
-        <div class="name">환산 유량 <em>Q₂ = Q₁ × (N₂/N₁)</em></div>
-        <div class="val" id="q2">—<small>m³/h</small></div>
-      </div>
-      <div class="out">
-        <div class="name">환산 압력 <em>H₂ = H₁ × (N₂/N₁)²</em></div>
-        <div class="val" id="h2">—<small>m</small></div>
-      </div>
-      <div class="out">
-        <div class="name">환산 축동력 <em>BHP₂ = BHP₁ × (N₂/N₁)³ × (γ₂/γ₁)</em></div>
-        <div class="val" id="bhp2">—<small>kW</small></div>
-      </div>
+      <dl class="kpi">
+        <div>
+          <dt>환산 축동력 BHP₂</dt>
+          <dd id="bhp2">—<small>kW</small></dd>
+          <p class="eq">BHP₁ × (N₂/N₁)³ × (γ₂/γ₁)</p>
+        </div>
+        <div>
+          <dt>환산 유량 Q₂</dt>
+          <dd id="q2">—<small>m³/h</small></dd>
+          <p class="eq">Q₁ × (N₂/N₁)</p>
+        </div>
+        <div>
+          <dt>환산 압력 H₂</dt>
+          <dd id="h2">—<small>m</small></dd>
+          <p class="eq">H₁ × (N₂/N₁)²</p>
+        </div>
+      </dl>
 
       <div class="ratio">
         <div>회전수비 N₂/N₁<b id="rn">—</b></div>
@@ -191,7 +278,7 @@
       </div>
 
       <div class="formula">
-        <h2>적용 식</h2>
+        <h3 class="sub">적용 식</h3>
         <table>
           <thead><tr><th>항목</th><th>환산식</th><th>비례 관계</th></tr></thead>
           <tbody>
@@ -206,91 +293,37 @@
     </section>
   </div>
 
+  <!-- 밀도표 -->
   <section class="card full">
-    <h2>물의 밀도 표 (0 °C ~ 임계점)</h2>
-    <div class="dens">
-      <div class="blk">
-        <h3>상온 구간 · 0 ~ 30 °C (1 °C 간격)</h3>
-        <table>
-          <thead><tr><th>온도 (°C)</th><th>밀도 (g/mL)</th><th>밀도 (kg/m³)</th></tr></thead>
-          <tbody>
-            <tr><td>0</td><td>0.99984</td><td>999.84</td></tr>
-            <tr><td>1</td><td>0.99990</td><td>999.90</td></tr>
-            <tr><td>2</td><td>0.99994</td><td>999.94</td></tr>
-            <tr><td>3</td><td>0.99997</td><td>999.97</td></tr>
-            <tr class="mark"><td>4</td><td>0.99998</td><td>999.98</td></tr>
-            <tr><td>5</td><td>0.99997</td><td>999.97</td></tr>
-            <tr><td>6</td><td>0.99994</td><td>999.94</td></tr>
-            <tr><td>7</td><td>0.99990</td><td>999.90</td></tr>
-            <tr><td>8</td><td>0.99985</td><td>999.85</td></tr>
-            <tr><td>9</td><td>0.99978</td><td>999.78</td></tr>
-            <tr><td>10</td><td>0.99970</td><td>999.70</td></tr>
-            <tr><td>11</td><td>0.99961</td><td>999.61</td></tr>
-            <tr><td>12</td><td>0.99950</td><td>999.50</td></tr>
-            <tr><td>13</td><td>0.99938</td><td>999.38</td></tr>
-            <tr><td>14</td><td>0.99925</td><td>999.25</td></tr>
-            <tr><td>15</td><td>0.99910</td><td>999.10</td></tr>
-            <tr><td>16</td><td>0.99895</td><td>998.95</td></tr>
-            <tr><td>17</td><td>0.99878</td><td>998.78</td></tr>
-            <tr><td>18</td><td>0.99860</td><td>998.60</td></tr>
-            <tr><td>19</td><td>0.99841</td><td>998.41</td></tr>
-            <tr><td>20</td><td>0.99821</td><td>998.21</td></tr>
-            <tr><td>21</td><td>0.99800</td><td>998.00</td></tr>
-            <tr><td>22</td><td>0.99777</td><td>997.77</td></tr>
-            <tr><td>23</td><td>0.99754</td><td>997.54</td></tr>
-            <tr><td>24</td><td>0.99730</td><td>997.30</td></tr>
-            <tr><td>25</td><td>0.99705</td><td>997.05</td></tr>
-            <tr><td>26</td><td>0.99679</td><td>996.79</td></tr>
-            <tr><td>27</td><td>0.99652</td><td>996.52</td></tr>
-            <tr><td>28</td><td>0.99624</td><td>996.24</td></tr>
-            <tr><td>29</td><td>0.99599</td><td>995.99</td></tr>
-            <tr><td>30</td><td>0.99565</td><td>995.65</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="blk">
-        <h3>고온 구간 · 35 ~ 373.946 °C (포화수)</h3>
-        <table>
-          <thead><tr><th>온도 (°C)</th><th>밀도 (g/mL)</th><th>밀도 (kg/m³)</th></tr></thead>
-          <tbody>
-            <tr><td>35</td><td>0.99403</td><td>994.03</td></tr>
-            <tr><td>40</td><td>0.99222</td><td>992.22</td></tr>
-            <tr><td>45</td><td>0.99021</td><td>990.21</td></tr>
-            <tr><td>50</td><td>0.98804</td><td>988.04</td></tr>
-            <tr><td>55</td><td>0.98569</td><td>985.69</td></tr>
-            <tr><td>60</td><td>0.98320</td><td>983.20</td></tr>
-            <tr><td>65</td><td>0.98055</td><td>980.55</td></tr>
-            <tr><td>70</td><td>0.97776</td><td>977.76</td></tr>
-            <tr><td>75</td><td>0.97484</td><td>974.84</td></tr>
-            <tr><td>80</td><td>0.97179</td><td>971.79</td></tr>
-            <tr><td>85</td><td>0.96861</td><td>968.61</td></tr>
-            <tr><td>90</td><td>0.96531</td><td>965.31</td></tr>
-            <tr><td>95</td><td>0.96189</td><td>961.89</td></tr>
-            <tr><td>100</td><td>0.95835</td><td>958.35</td></tr>
-            <tr><td>110</td><td>0.95095</td><td>950.95</td></tr>
-            <tr><td>120</td><td>0.94311</td><td>943.11</td></tr>
-            <tr><td>140</td><td>0.92613</td><td>926.13</td></tr>
-            <tr><td>160</td><td>0.90745</td><td>907.45</td></tr>
-            <tr><td>180</td><td>0.88700</td><td>887.00</td></tr>
-            <tr><td>200</td><td>0.86466</td><td>864.66</td></tr>
-            <tr><td>220</td><td>0.84022</td><td>840.22</td></tr>
-            <tr><td>240</td><td>0.81337</td><td>813.37</td></tr>
-            <tr><td>260</td><td>0.78363</td><td>783.63</td></tr>
-            <tr><td>280</td><td>0.75028</td><td>750.28</td></tr>
-            <tr><td>300</td><td>0.71214</td><td>712.14</td></tr>
-            <tr><td>320</td><td>0.66709</td><td>667.09</td></tr>
-            <tr><td>340</td><td>0.61067</td><td>610.67</td></tr>
-            <tr><td>360</td><td>0.52759</td><td>527.59</td></tr>
-            <tr class="mark"><td>373.946</td><td>0.32200</td><td>322.00</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <p class="eyebrow">REFERENCE</p>
+    <h2 class="ruled">물의 밀도 표</h2>
+
+    <h3 class="sub">① 1 기압 구간 · 0 ~ 98.9 °C <span style="color:var(--ink2);font-weight:400">(원표 0.1 °C 간격, 아래는 1 °C 발췌)</span></h3>
+    <div class="dens" id="densTables"></div>
+
+    <div class="cond">
+      <b>표 기준 조건</b>
+      <ul>
+        <li>Pure, air-free water H₂O</li>
+        <li>Normal pressure: 1 기압 = 1013.25 mbar = 101325 Pa</li>
+        <li>Range: 0 to 99.9 °C (Celsius)</li>
+        <li>Density D in g/mL</li>
+      </ul>
     </div>
-    <p class="note">0 ~ 30 °C 는 표 4.1(g/mL) 기준, 35 °C 이상은 포화수 밀도(kg/m³) 기준이고 나머지 단위는 1,000 및 으로 환산해 병기했습니다. 4 °C 는 최대 밀도점, 373.946 °C 는 임계점입니다. 비중량 γ 엔 kg/m³ 값을 그대로 사용하십시오.</p>
+    <p class="ref">출처 — Internetchemistry. (2022, October 6). <em>Water Density Table</em> [Website]. Retrieved November 19, 2026, from <a href="https://www.internetchemistry.com/chemical-data/water-density-table.php" target="_blank" rel="noopener">https://www.internetchemistry.com/chemical-data/water-density-table.php</a></p>
+    <p class="note">입력부의 밀도 계산기는 0.1 °C 간격 원표값을 그대로 사용하며 그 사이 온도는 인접 두 표값의 선형보간입니다(내장 데이터 0.0~98.9 °C). 4 °C 부근이 최대 밀도점입니다.</p>
+
+    <div class="sec2">
+      <h3 class="sub">② 고온 포화수 구간 · 100 ~ 373.946 °C <span style="color:var(--ink2);font-weight:400">(포화압력 하 액체 물)</span></h3>
+      <div class="dens" id="satTables"></div>
+      <p class="ref">출처 — IAPWS. (2007). <em>Revised Release on the IAPWS Industrial Formulation 1997 for the Thermodynamic Properties of Water and Steam (IF-97)</em>. / ASME Steam Tables. <strong>[확인 필요]</strong> 표값은 기존 페이지 수치를 그대로 옮긴 것이므로, 대외 제출 전 원문과 대조하십시오.</p>
+      <p class="note">이 구간은 1 기압이 아니라 <strong>각 온도의 포화압력</strong> 기준입니다(100 °C 0.1013 MPa → 임계점 22.064 MPa). 373.946 °C·322 kg/m³ 는 임계점이며 그 이상에서는 액체 물이 존재하지 않습니다. 계산기에서 100 °C 초과를 입력하면 이 표의 선형보간값(20 °C 간격)이므로 중간 온도는 오차가 생길 수 있습니다.</p>
+    </div>
   </section>
 </div>
 
 <script>
+  /* ── 펌프 상사법칙 ───────────────────────────── */
   var ids = ["tco","n2","eff","y2","n1","y1","bhp1","q1","h1"];
   var el = {};
   ids.concat(["rn","ry","bhp2","q2","h2","pin","verdict"]).forEach(function(k){ el[k] = document.getElementById(k); });
@@ -373,6 +406,221 @@
   });
 
   calc();
+
+  /* ── ① 1 기압 밀도표 (Internetchemistry, 0.1 °C 간격, 단위 1e-6 g/mL) ── */
+  var ROWS = [
+  "999843 999850 999856 999863 999869 999875 999880 999886 999892 999897",
+  "999902 999907 999911 999916 999920 999925 999929 999932 999936 999940",
+  "999943 999946 999949 999952 999955 999957 999960 999962 999964 999965",
+  "999967 999969 999970 999971 999972 999973 999974 999974 999975 999975",
+  "999975 999975 999974 999974 999973 999973 999972 999971 999970 999968",
+  "999967 999965 999963 999961 999959 999957 999954 999952 999949 999946",
+  "999943 999940 999936 999933 999929 999925 999922 999917 999913 999909",
+  "999904 999900 999895 999890 999885 999879 999874 999868 999863 999857",
+  "999851 999845 999839 999832 999826 999819 999812 999805 999798 999791",
+  "999784 999776 999768 999761 999753 999745 999737 999728 999720 999711",
+  "999702 999694 999685 999675 999666 999657 999647 999638 999628 999618",
+  "999608 999598 999587 999577 999566 999556 999545 999534 999523 999512",
+  "999500 999489 999477 999466 999454 999442 999430 999417 999405 999393",
+  "999380 999367 999355 999342 999328 999315 999302 999288 999275 999261",
+  "999247 999233 999219 999205 999191 999176 999162 999147 999133 999118",
+  "999103 999087 999072 999057 999041 999026 999010 998994 998978 998962",
+  "998946 998930 998913 998897 998880 998863 998847 998830 998813 998795",
+  "998778 998761 998743 998725 998708 998690 998672 998654 998635 998617",
+  "998599 998580 998561 998543 998524 998505 998486 998467 998447 998428",
+  "998408 998389 998369 998349 998329 998309 998289 998269 998248 998228",
+  "998207 998186 998166 998145 998124 998103 998081 998060 998039 998017",
+  "997995 997974 997952 997930 997908 997886 997864 997841 997819 997796",
+  "997773 997751 997728 997705 997682 997659 997635 997612 997589 997565",
+  "997541 997518 997494 997470 997446 997422 997397 997373 997349 997324",
+  "997299 997275 997250 997225 997200 997175 997149 997124 997099 997073",
+  "997048 997022 996996 996970 996944 996918 996892 996866 996839 996813",
+  "996786 996760 996733 996706 996679 996652 996625 996598 996571 996543",
+  "996516 996488 996461 996433 996405 996377 996349 996321 996293 996264",
+  "996236 996207 996179 996150 996121 996093 996064 996035 996006 995976",
+  "995947 995918 995888 995859 995829 995799 995770 995740 995710 995680",
+  "995650 995620 995590 995560 995530 995500 995470 995440 995410 995370",
+  "995340 995310 995280 995250 995220 995190 995160 995120 995090 995060",
+  "995030 995000 994960 994930 994900 994870 994840 994800 994770 994740",
+  "994700 994670 994640 994610 994570 994540 994510 994470 994440 994410",
+  "994370 994340 994310 994270 994240 994200 994170 994140 994100 994070",
+  "994030 994000 993960 993930 993900 993860 993830 993790 993760 993720",
+  "993690 993650 993610 993580 993540 993510 993470 993440 993400 993370",
+  "993330 993290 993260 993220 993190 993150 993110 993080 993040 993000",
+  "992970 992930 992890 992860 992820 992780 992740 992710 992670 992630",
+  "992600 992560 992520 992480 992440 992410 992370 992330 992290 992250",
+  "992220 992180 992140 992100 992060 992020 991990 991950 991910 991870",
+  "991830 991790 991750 991710 991670 991630 991590 991560 991520 991480",
+  "991440 991400 991360 991320 991280 991240 991200 991160 991120 991080",
+  "991040 991000 990950 990910 990870 990830 990790 990750 990710 990670",
+  "990630 990590 990550 990500 990460 990420 990380 990340 990300 990250",
+  "990210 990170 990130 990090 990040 990000 989960 989920 989880 989830",
+  "989790 989750 989710 989660 989620 989580 989530 989490 989450 989410",
+  "989360 989320 989280 989230 989190 989150 989100 989060 989010 988970",
+  "988930 988880 988840 988790 988750 988710 988660 988620 988570 988530",
+  "988480 988440 988390 988350 988310 988260 988220 988170 988130 988080",
+  "988040 987990 987940 987900 987850 987810 987760 987720 987670 987630",
+  "987580 987530 987490 987440 987400 987350 987300 987260 987210 987160",
+  "987120 987070 987020 986980 986930 986880 986840 986790 986740 986700",
+  "986650 986600 986550 986510 986460 986410 986360 986320 986270 986220",
+  "986170 986130 986080 986030 985980 985930 985890 985840 985790 985740",
+  "985690 985640 985600 985550 985500 985450 985400 985350 985300 985250",
+  "985210 985160 985110 985060 985010 984960 984910 984860 984810 984760",
+  "984710 984660 984610 984560 984510 984460 984410 984360 984310 984260",
+  "984210 984160 984110 984060 984010 983960 983910 983860 983810 983760",
+  "983710 983660 983610 983550 983500 983450 983400 983350 983300 983250",
+  "983200 983140 983090 983040 982990 982940 982890 982830 982780 982730",
+  "982680 982630 982570 982520 982470 982420 982370 982310 982260 982210",
+  "982160 982100 982050 982000 981940 981890 981840 981790 981730 981680",
+  "981630 981570 981520 981470 981410 981360 981310 981250 981200 981150",
+  "981090 981040 980980 980930 980880 980820 980770 980710 980660 980610",
+  "980550 980500 980440 980390 980330 980280 980220 980170 980110 980060",
+  "980000 979950 979890 979840 979780 979730 979670 979620 979560 979510",
+  "979450 979400 979340 979290 979230 979180 979120 979060 979010 978950",
+  "978900 978840 978780 978730 978670 978610 978560 978500 978450 978390",
+  "978330 978280 978220 978160 978110 978050 977990 977940 977880 977820",
+  "977760 977710 977650 977590 977540 977480 977420 977360 977310 977250",
+  "977190 977130 977080 977020 976960 976900 976840 976790 976730 976670",
+  "976610 976550 976500 976440 976380 976320 976260 976200 976140 976090",
+  "976030 975970 975910 975850 975790 975730 975670 975620 975560 975500",
+  "975440 975380 975320 975260 975200 975140 975080 975020 974960 974900",
+  "974840 974780 974720 974660 974600 974540 974480 974420 974360 974300",
+  "974240 974180 974120 974060 974000 973940 973880 973820 973760 973700",
+  "973640 973580 973520 973450 973390 973330 973270 973210 973150 973090",
+  "973030 972970 972900 972840 972780 972720 972660 972600 972530 972470",
+  "972410 972350 972290 972230 972160 972100 972040 971980 971910 971850",
+  "971790 971730 971670 971600 971540 971480 971420 971350 971290 971230",
+  "971160 971100 971040 970980 970910 970850 970790 970720 970660 970600",
+  "970530 970470 970410 970340 970280 970220 970150 970090 970030 969960",
+  "969900 969830 969770 969710 969640 969580 969510 969450 969390 969320",
+  "969260 969190 969130 969060 969000 968930 968870 968810 968740 968680",
+  "968610 968550 968480 968420 968350 968290 968220 968160 968090 968030",
+  "967960 967900 967830 967760 967700 967630 967570 967500 967440 967370",
+  "967310 967240 967170 967110 967040 966980 966910 966840 966780 966710",
+  "966640 966580 966510 966450 966380 966310 966250 966180 966110 966050",
+  "965980 965910 965850 965780 965710 965650 965580 965510 965440 965380",
+  "965310 965240 965180 965110 965040 964970 964910 964840 964770 964700",
+  "964630 964570 964500 964430 964360 964300 964230 964160 964090 964020",
+  "963960 963890 963820 963750 963680 963610 963550 963480 963410 963340",
+  "963270 963200 963130 963060 963000 962930 962860 962790 962720 962650",
+  "962580 962510 962440 962370 962300 962240 962170 962100 962030 961960",
+  "961890 961820 961750 961680 961610 961540 961470 961400 961330 961260",
+  "961190 961120 961050 960980 960910 960840 960770 960700 960630 960560",
+  "960490 960420 960350 960270 960200 960130 960060 959990 959920 959850",
+  "959780 959710 959640 959570 959490 959420 959350 959280 959210 959140"
+  ];
+  var V = ROWS.join(" ").split(" ").map(Number);   // 990개, 0.0~98.9 °C
+  var MAXI = V.length - 1;
+
+  /* ── ② 포화수 밀도 (100 ~ 373.946 °C, kg/m³) ── */
+  var SAT = [
+    [100,958.35],[110,950.95],[120,943.11],[140,926.13],[160,907.45],[180,887.00],
+    [200,864.66],[220,840.22],[240,813.37],[260,783.63],[280,750.28],[300,712.14],
+    [320,667.09],[340,610.67],[360,527.59],[373.946,322.00]
+  ];
+  var TC = 373.946;
+
+  var wt = document.getElementById("wt"), wtr = document.getElementById("wtr");
+  var dOut = document.getElementById("dOut"), dSI = document.getElementById("dSI");
+  var dV = document.getElementById("dV"), dM = document.getElementById("dM"), dW = document.getElementById("dW");
+  var curRho = null;
+
+  function lerp(a,b,f){ return a + (b-a)*f; }
+
+  function lookup(t){
+    if(t <= 98.9){                                  // 1 기압 원표
+      var x = t*10, i = Math.floor(x + 1e-9);
+      if(i >= MAXI) return { rho:V[MAXI]/1e6, src:"1 기압 표값 직접" };
+      var f = x - i;
+      return { rho: lerp(V[i], V[i+1], f)/1e6,
+               src: f < 1e-9 ? "1 기압 표값 직접" : "1 기압 표 선형보간" };
+    }
+    if(t < 100){                                    // 98.9 ~ 100 경계
+      return { rho: lerp(V[MAXI]/1e6, 0.95835, (t-98.9)/1.1), src:"경계 보간 (98.9↔100 °C)" };
+    }
+    for(var k = 0; k < SAT.length - 1; k++){        // 포화수
+      if(t <= SAT[k+1][0]){
+        var f2 = (t - SAT[k][0]) / (SAT[k+1][0] - SAT[k][0]);
+        return { rho: lerp(SAT[k][1], SAT[k+1][1], f2)/1000,
+                 src: f2 < 1e-9 ? "포화수 표값 직접" : "포화수 표 선형보간",
+                 sat:true };
+      }
+    }
+    return { rho: SAT[SAT.length-1][1]/1000, src:"임계점", sat:true };
+  }
+
+  function dens(){
+    var t = parseFloat(wt.value);
+    if(!isFinite(t) || t < 0 || t > TC){
+      curRho = null;
+      dOut.innerHTML = '<span class="err">0 ~ 373.946 °C 범위로 입력</span>';
+      dSI.textContent = "—"; dV.textContent = "—"; dM.textContent = "범위 밖";
+      dW.hidden = false;
+      dW.textContent = "임계점(373.946 °C) 이상에서는 액체 물이 존재하지 않습니다.";
+      return;
+    }
+    var r = lookup(t);
+    curRho = r.rho;
+    dOut.innerHTML = r.rho.toFixed(6) + "<small>g/mL</small>";
+    dSI.textContent = (r.rho * 1000).toFixed(2);
+    dV.textContent = (1 / r.rho).toFixed(6) + " mL/g";
+    dM.textContent = r.src;
+    if(r.sat){
+      dW.hidden = false;
+      dW.textContent = "포화압력 기준값입니다. 펌프 환산 시 실제 운전압력·NPSH 조건을 별도 확인하십시오.";
+    }else{
+      dW.hidden = true;
+    }
+  }
+
+  wt.addEventListener("input", function(){
+    var t = parseFloat(wt.value);
+    if(isFinite(t) && t >= 0 && t <= 373.9) wtr.value = t;
+    dens();
+  });
+  wtr.addEventListener("input", function(){
+    wt.value = parseFloat(wtr.value).toFixed(1);
+    dens();
+  });
+  document.getElementById("toY1").addEventListener("click", function(){
+    if(curRho === null) return;
+    el.y1.value = (curRho * 1000).toFixed(2);
+    calc();
+    el.y1.focus();
+  });
+
+  /* 하단 표 생성 */
+  (function buildTables(){
+    var blocks = [[0,24],[25,49],[50,74],[75,98]], html = "";
+    blocks.forEach(function(b){
+      var rows = "";
+      for(var c = b[0]; c <= b[1]; c++){
+        var d = V[c*10] / 1e6;
+        rows += '<tr' + (c === 4 ? ' class="mark"' : '') + '><td>' + c + '</td><td>' +
+                d.toFixed(6) + '</td><td>' + (d*1000).toFixed(2) + '</td></tr>';
+      }
+      html += '<div class="blk"><h3>' + b[0] + ' ~ ' + b[1] + ' °C</h3><table>' +
+              '<thead><tr><th>°C</th><th>g/mL</th><th>kg/m³</th></tr></thead>' +
+              '<tbody>' + rows + '</tbody></table></div>';
+    });
+    document.getElementById("densTables").innerHTML = html;
+
+    var half = Math.ceil(SAT.length/2), h2 = "";
+    [[0,half-1],[half,SAT.length-1]].forEach(function(b){
+      var rows = "";
+      for(var i = b[0]; i <= b[1]; i++){
+        var t = SAT[i][0], kg = SAT[i][1];
+        rows += '<tr' + (t === TC ? ' class="mark"' : '') + '><td>' + t + '</td><td>' +
+                (kg/1000).toFixed(5) + '</td><td>' + kg.toFixed(2) + '</td></tr>';
+      }
+      h2 += '<div class="blk"><h3>' + SAT[b[0]][0] + ' ~ ' + SAT[b[1]][0] + ' °C</h3><table>' +
+            '<thead><tr><th>°C</th><th>g/mL</th><th>kg/m³</th></tr></thead>' +
+            '<tbody>' + rows + '</tbody></table></div>';
+    });
+    document.getElementById("satTables").innerHTML = h2;
+  })();
+
+  dens();
 </script>
 </body>
 </html>
