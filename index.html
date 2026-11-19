@@ -177,7 +177,7 @@
         </div>
         <div class="row">
           <label for="y2">환산 액체 비중량 <span class="sym">γ₂</span></label>
-          <div class="unit"><input type="number" id="y2" step="any" placeholder="0"><span>kgf/m³</span></div>
+          <div class="unit"><input type="number" id="y2" step="any" placeholder="1000" value="1000"><span>kgf/m³</span></div>
         </div>
       </fieldset>
 
@@ -195,15 +195,14 @@
               <label for="wt">수온</label>
               <div class="unit"><input type="number" id="wt" step="0.01" min="0" max="373.946" value="20" placeholder="0"><span>°C</span></div>
             </div>
-            <input type="range" id="wtr" min="0" max="373.9" step="0.1" value="20" aria-label="수온 슬라이더">
-            <div class="rng"><span>0</span><span>100</span><span>373.9</span></div>
+            <!--<input type="range" id="wtr" min="0" max="373.9" step="0.1" value="20" aria-label="수온 슬라이더">
+            <div class="rng"><span>0</span><span>100</span><span>373.9</span></div>-->
 
             <div class="res">
               <p class="lab">밀도 D</p>
               <p class="big" id="dOut">0.998207<small>g/mL</small></p>
               <dl>
                 <div><dt>kg/m³ (= γ 입력값)</dt><dd id="dSI">998.21</dd></div>
-                <div><dt>비체적</dt><dd id="dV">1.001796 mL/g</dd></div>
                 <div><dt>데이터 기준</dt><dd id="dM" style="font-size:12.5px;font-weight:500">1 기압 표값 직접</dd></div>
               </dl>
               <p class="warn" id="dW" hidden></p>
@@ -256,11 +255,6 @@
 
       <dl class="kpi">
         <div>
-          <dt>환산 축동력 BHP₂</dt>
-          <dd id="bhp2">—<small>kW</small></dd>
-          <p class="eq">BHP₁ × (N₂/N₁)³ × (γ₂/γ₁)</p>
-        </div>
-        <div>
           <dt>환산 유량 Q₂</dt>
           <dd id="q2">—<small>m³/h</small></dd>
           <p class="eq">Q₁ × (N₂/N₁)</p>
@@ -269,6 +263,11 @@
           <dt>환산 압력 H₂</dt>
           <dd id="h2">—<small>m</small></dd>
           <p class="eq">H₁ × (N₂/N₁)²</p>
+        </div>
+        <div>
+          <dt>환산 축동력 BHP₂</dt>
+          <dd id="bhp2">—<small>kW</small></dd>
+          <p class="eq">BHP₁ × (N₂/N₁)³ × (γ₂/γ₁)</p>
         </div>
       </dl>
 
@@ -396,6 +395,7 @@
   document.getElementById("reset").addEventListener("click", function(){
     ids.forEach(function(k){ el[k].value = ""; });
     calc();
+    el.y2.value = 1000;
     el.tco.focus();
   });
 
@@ -522,7 +522,6 @@
 
   var wt = document.getElementById("wt"), wtr = document.getElementById("wtr");
   var dOut = document.getElementById("dOut"), dSI = document.getElementById("dSI");
-  var dV = document.getElementById("dV"), dM = document.getElementById("dM"), dW = document.getElementById("dW");
   var curRho = null;
 
   function lerp(a,b,f){ return a + (b-a)*f; }
@@ -554,7 +553,6 @@
     if(!isFinite(t) || t < 0 || t > TC){
       curRho = null;
       dOut.innerHTML = '<span class="err">0 ~ 373.946 °C 범위로 입력</span>';
-      dSI.textContent = "—"; dV.textContent = "—"; dM.textContent = "범위 밖";
       dW.hidden = false;
       dW.textContent = "임계점(373.946 °C) 이상에서는 액체 물이 존재하지 않습니다.";
       return;
@@ -563,7 +561,6 @@
     curRho = r.rho;
     dOut.innerHTML = r.rho.toFixed(6) + "<small>g/mL</small>";
     dSI.textContent = (r.rho * 1000).toFixed(2);
-    dV.textContent = (1 / r.rho).toFixed(6) + " mL/g";
     dM.textContent = r.src;
     if(r.sat){
       dW.hidden = false;
@@ -575,13 +572,13 @@
 
   wt.addEventListener("input", function(){
     var t = parseFloat(wt.value);
-    if(isFinite(t) && t >= 0 && t <= 373.9) wtr.value = t;
+    if(isFinite(t) && t >= 0 && t <= 373.9) //wtr.value = t;
     dens();
   });
-  wtr.addEventListener("input", function(){
-    wt.value = parseFloat(wtr.value).toFixed(1);
-    dens();
-  });
+  //wtr.addEventListener("input", function(){
+  //  wt.value = parseFloat(wtr.value).toFixed(1);
+  //  dens();
+  //});
   document.getElementById("toY1").addEventListener("click", function(){
     if(curRho === null) return;
     el.y1.value = (curRho * 1000).toFixed(2);
