@@ -168,6 +168,10 @@
           <div class="unit"><input type="number" id="tco" step="any" placeholder="0"><span>kW</span></div>
         </div>
         <div class="row">
+          <label for="y2">환산 액체 비중량 <span class="sym">γ₂</span></label>
+          <div class="unit"><input type="number" id="y2" step="any" placeholder="1000" value="1000"><span>kgf/m³</span></div>
+        </div>
+        <div class="row">
           <label for="n2">현장 모터 회전수 <span class="sym">N₂</span></label>
           <div class="unit"><input type="number" id="n2" step="any" placeholder="0"><span>rpm</span></div>
         </div>
@@ -175,21 +179,12 @@
           <label for="eff">현장 모터 효율</label>
           <div class="unit"><input type="number" id="eff" step="any" placeholder="0"><span>%</span></div>
         </div>
-        <div class="row">
-          <label for="y2">환산 액체 비중량 <span class="sym">γ₂</span></label>
-          <div class="unit"><input type="number" id="y2" step="any" placeholder="1000" value="1000"><span>kgf/m³</span></div>
-        </div>
       </fieldset>
 
       <fieldset>
         <legend>Shop 시험 조건</legend>
-        <div class="row">
-          <label for="n1">Shop 모터 회전수 <span class="sym">N₁</span></label>
-          <div class="unit"><input type="number" id="n1" step="any" placeholder="0"><span>rpm</span></div>
-        </div>
-
         <details class="dtool" open>
-          <summary>물 밀도 계산기 · 수온 → 비중량 γ (0 ~ 373.946 °C)</summary>
+          <summary>물 밀도 계산기</summary>
           <div class="tool">
             <div class="row">
               <label for="wt">수온</label>
@@ -217,6 +212,10 @@
         <div class="row">
           <label for="y1">Shop 액체 비중량 <span class="sym">γ₁</span></label>
           <div class="unit"><input type="number" id="y1" step="any" placeholder="0"><span>kgf/m³</span></div>
+        </div>
+        <div class="row">
+          <label for="n1">Shop 모터 회전수 <span class="sym">N₁</span></label>
+          <div class="unit"><input type="number" id="n1" step="any" placeholder="0"><span>rpm</span></div>
         </div>
         <div class="row">
           <label for="bhp1">Shop 축동력 <span class="sym">BHP₁</span></label>
